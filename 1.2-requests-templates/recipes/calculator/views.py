@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 DATA = {
     'omlet': {
@@ -18,6 +19,16 @@ DATA = {
     },
     # можете добавить свои рецепты ;)
 }
+def recipies_get_product(request, rec):
+    servings = int(request.GET.get('servings', 1))
+    try:
+        ingrid = DATA[rec]
+        ingrid.update(
+            (key, value * servings) for key, value in ingrid.items())
+        context = {'recipe' : ingrid}
+        return render(request, 'calculator/index.html', context)
+    except KeyError:
+        return HttpResponse(f'Такого блюда у нас нет')
 
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
