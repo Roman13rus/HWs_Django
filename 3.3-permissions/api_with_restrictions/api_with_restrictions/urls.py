@@ -13,16 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from advertisements.views import AdvertisementViewSet
 from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
+router.register('advertisements', AdvertisementViewSet)
 # TODO: подключите `AdvertisementViewSet`
-
-
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
 ]
+
+# ee01c95299a852d168f8f56758953ca47463b69b
+# d4a1289ec196fc6752bcaf753c431b624a9ba142

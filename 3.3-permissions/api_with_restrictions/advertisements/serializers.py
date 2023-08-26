@@ -1,4 +1,7 @@
 from django.contrib.auth.models import User
+import django.core.exceptions
+import django.core.validators
+from django.forms import ValidationError
 from rest_framework import serializers
 
 from advertisements.models import Advertisement
@@ -36,10 +39,18 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         # само поле при этом объявляется как `read_only=True`
         validated_data["creator"] = self.context["request"].user
         return super().create(validated_data)
+   
 
     def validate(self, data):
+
         """Метод для валидации. Вызывается при создании и обновлении."""
 
         # TODO: добавьте требуемую валидацию
 
-        return data
+        creator_adv = self.context['request'].user.adv.filter(status='OPEN')
+        if creator_adv.count() >= 10 and self.context['request'].method == 'POST':
+            raise ValidationError("Открытых объявлений не может быть болше 10")
+        elif self.context['request'].method == 'PACTH' and data.status == 'OPEN' and creator_adv.count() == 10:
+            raise ValidationError("Открытых объявлений не может быть болше 10")
+        elif self.context['request'].method == 'PACTH' and data.status == 'CLOSE':
+            return data

@@ -1,10 +1,25 @@
+from advertisements.permissions import IsDelOrReadOnly
+from advertisements.filters import AdvertisementFilter
+from advertisements.serializers import AdvertisementSerializer
+from advertisements.models import Advertisement
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 class AdvertisementViewSet(ModelViewSet):
     """ViewSet для объявлений."""
-
+    queryset = Advertisement.objects.all()
+    serializer_class = AdvertisementSerializer
+    filter_backends = [DjangoFilterBackend,]
+    filterset_class = AdvertisementFilter
+    def get_queryset(self):
+        req = self.request
+        creator = req.query_params.get('creator')
+        if creator:
+            self.queryset = Advertisement.objects.filter(creator=creator)
+            return self.queryset
+        else:
+            return self.queryset
     # TODO: настройте ViewSet, укажите атрибуты для кверисета,
     #   сериализаторов и фильтров
 
@@ -12,4 +27,6 @@ class AdvertisementViewSet(ModelViewSet):
         """Получение прав для действий."""
         if self.action in ["create", "update", "partial_update"]:
             return [IsAuthenticated()]
+        elif self.action in ['destroy']:
+            return [IsDelOrReadOnly()]
         return []
