@@ -1,6 +1,8 @@
+
 import django.db
 from rest_framework import serializers
 from logistic.models import Product, StockProduct, Stock
+
 
 
 
@@ -16,6 +18,7 @@ class ProductPositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockProduct
         fields = ['product', 'quantity', 'price']
+
         
 
 class StockSerializer(serializers.ModelSerializer):
@@ -44,11 +47,9 @@ class StockSerializer(serializers.ModelSerializer):
         stock = super().update(instance, validated_data)
 
         for position in positions:
-            StockProduct.objects.update_or_create(stock=stock,
-                defaults={'stock': stock, 'product': position['product'], 'quantity': position['quantity'],
+            StockProduct.objects.update_or_create(stock=stock, product=position['product'], 
+                defaults={'quantity': position['quantity'],
                           'price': position['price']})
-
-    
 
         # здесь вам надо обновить связанные таблицы
         # в нашем случае: таблицу StockProduct

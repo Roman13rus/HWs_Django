@@ -7,8 +7,8 @@ POST {{baseUrl}}/products/
 Content-Type: application/json
 
 {
-  "title": "Помидор",
-  "description": "Лучшие помидоры на рынке"
+  "title": "Земляника",
+  "description": "Лучшая земляника на рынке СССР"
 }
 
 ###
@@ -20,7 +20,7 @@ Content-Type: application/json
 ###
 
 # обновление продукта
-PATCH {{baseUrl}}/products/5/
+PATCH {{baseUrl}}/products/10/
 Content-Type: application/json
 
 {
@@ -30,7 +30,7 @@ Content-Type: application/json
 ###
 
 # удаление продукта
-DELETE {{baseUrl}}/products/4/
+DELETE {{baseUrl}}/products/8/
 Content-Type: application/json
 
 ###
@@ -49,12 +49,12 @@ Content-Type: application/json
   "address": "мой адрес jr25",
   "positions": [
     {
-      "product": 2,
+      "product": 12,
       "quantity": 250,
       "price": 120.50
     },
     {
-      "product": 3,
+      "product": 10,
       "quantity": 100,
       "price": 180
     }
@@ -70,7 +70,7 @@ Content-Type: application/json
 {
   "positions": [
     {
-      "product": 2,
+      "product": 12,
       "quantity": 100,
       "price": 130.80
     },
@@ -85,7 +85,7 @@ Content-Type: application/json
 ###
 
 # поиск складов, где есть определенный продукт
-GET {{baseUrl}}/stocks/?products=2
+GET {{baseUrl}}/stocks/?products=9
 Content-Type: application/json
 
 ###
@@ -94,5 +94,9 @@ Content-Type: application/json
 GET {{baseUrl}}/stocks/
 Content-Type: application/json
 
-
+###
+# поиск складов, где есть определенный продукт
+GET {{baseUrl}}/stocks/?search=помид
+Content-Type: application/json
+```
 
