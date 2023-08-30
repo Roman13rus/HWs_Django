@@ -33,9 +33,10 @@ Authorization: Token d4a1289ec196fc6752bcaf753c431b624a9ba142
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/9/
+PATCH {{baseUrl}}/advertisements/21/
 Content-Type: application/json
 Authorization: Token ee01c95299a852d168f8f56758953ca47463b69b
+# Authorization: Token d4a1289ec196fc6752bcaf753c431b624a9ba142
 
 {
   "status": "CLOSED"

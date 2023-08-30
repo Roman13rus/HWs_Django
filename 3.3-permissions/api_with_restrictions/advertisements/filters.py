@@ -11,4 +11,4 @@ class AdvertisementFilter(filters.FilterSet):
 
     class Meta:
         model = Advertisement
-        fields = ['created_at', 'status']
+        fields = ['creator' ,'created_at', 'status']
